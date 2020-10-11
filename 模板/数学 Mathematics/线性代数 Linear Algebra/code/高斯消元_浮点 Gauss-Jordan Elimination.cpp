@@ -59,7 +59,7 @@ namespace LA{
 			}
 		}
 		for(int i = 1; i <= n; i++)	res *= a[i][i];
-		return flag ? res : -res;
+		return flag > 0 ? res : -res;
 	}
 }
 
