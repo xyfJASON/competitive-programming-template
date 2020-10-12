@@ -20,7 +20,7 @@
 
 容易知道这个序列会出现循环节，如果画出来，形成希腊字母 $\rho$ 的形状：
 
-<img src="https://img-blog.csdn.net/20150503163841553" style="zoom: 33%;" />
+<img src="https://img-blog.csdn.net/20150503163841553" style="zoom: 67%;" />
 
 根据生日悖论的分析，在序列出现回路之前预计要执行的步数为 $\Theta(\sqrt n)$. 
 
