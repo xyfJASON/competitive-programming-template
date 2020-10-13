@@ -361,7 +361,7 @@ bool PointInConvexHull(Point A, int n, Point p[]){
 }
 
 void Minkowski(int n1, Point p1[], int n2, Point p2[], Point tmp[], Point res[], int &resn){
-	// tmp[] is a auxiliary array
+	// tmp[] is an auxiliary array
 	// p1[] is a convex hull consist of n1 points
 	// p2[] is a convex hull consist of n2 points
 	// res[] is the Minkowski tmp of these two convex hull consist of resn points
