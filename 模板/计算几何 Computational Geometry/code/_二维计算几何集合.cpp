@@ -299,6 +299,46 @@ void getTangents(Circle C1, Circle C2, Point c1[], Point c2[], int &resn){
 		c1[++resn] = C1.getPoint(base + ang), c2[resn] = C2.getPoint(base + ang + PI);
 	}
 }
+double TriangleCircleIntersectionArea(Point A, Point B, double r){
+	// Circle's center is O(0, 0), radius is r
+	// The triangle is OAB
+	double ra = sqrt(A*A), rb = sqrt(B*B);
+	Point O(0, 0);
+	Line AB = Line(A, B-A);
+	if(cmp(ra, r) <= 0 && cmp(rb, r) <= 0)	return (A ^ B) / 2;
+	else if(cmp(ra, r) >= 0 && cmp(rb, r) >= 0){
+		double d = DistancePointToLine(O, AB);
+		double theta = signedAngle(A, B);
+		if(cmp(d, r) >= 0)	return theta * r * r / 2;
+		else{
+			Point H = GetLineIntersection(AB, Line(O, Normal(B-A)));
+			if(PointOnSegment(H, A, B)){
+				Point t[3]; int _t;
+				getLineCircleIntersection(AB, Circle(O, r), t, _t);
+				double phi = signedAngle(t[1], t[2]);
+				return (theta + sin(phi) - phi) * r * r / 2;
+			}
+			else	return theta * r * r / 2;
+		}
+	}
+	else{
+		Point t[3]; int _t;
+		getLineCircleIntersection(AB, Circle(O, r), t, _t);
+		if(PointOnSegment(t[2], A, B))	t[1] = t[2];
+		if(cmp(ra, r) <= 0)
+			return signedAngle(t[1], B) * r * r / 2 + (A ^ t[1]) / 2;
+		else
+			return signedAngle(A, t[1]) * r * r / 2 + (t[1] ^ B) / 2;
+	}
+}
+double PolygonCircleIntersectionArea(int n, Point p[], Circle C){
+	// p[] is a simple polygon
+	// ATT: result might be negative
+	double res = 0;
+	for(int i = 1; i <= n; i++)
+		res += TriangleCircleIntersectionArea(p[i]-C.p, p[i%n+1]-C.p, C.r);
+	return res;
+}
 // get inversion from a circle to a circle
 // ensure that point O is not on circle A beforehand
 Circle getInversionC2C(Point O, double R, Circle A){
