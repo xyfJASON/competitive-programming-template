@@ -33,8 +33,8 @@ bool dfs(int x){
 int Hungarian(){
 	int cnt = 0;
 	for(int i = 1; i <= n1; i++){
-		for(int i = 1; i <= n2; i++)
-			vis[i] = false;
+		for(int j = 1; j <= n2; j++)
+			vis[j] = false;
 		if(dfs(i))	cnt++;
 	}
 	return cnt;
