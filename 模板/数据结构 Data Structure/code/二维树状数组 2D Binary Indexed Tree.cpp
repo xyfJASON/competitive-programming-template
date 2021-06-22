@@ -14,16 +14,24 @@ char s[10];
 
 int c1[N][N], c2[N][N], c3[N][N], c4[N][N];
 inline int lowbit(int x){ return x & -x; }
-inline void addy(int x, int y, int val, int c[][N]){ while(y <= m){ c[x][y] += val; y += lowbit(y); } }
-inline void addx(int x, int y, int val, int c[][N]){ while(x <= n){ addy(x, y, val, c); x += lowbit(x); } }
-inline int sumy(int x, int y, int c[][N]){ int res = 0; while(y){ res += c[x][y]; y -= lowbit(y); } return res; }
-inline int sumx(int x, int y, int c[][N]){ int res = 0; while(x){ res += sumy(x, y, c); x -= lowbit(x); } return res; }
+inline void add(int x, int y, int val, int c[][N]){
+	for(int i = x; i <= n; i += lowbit(i))
+		for(int j = y; j <= m; j += lowbit(j))
+			c[i][j] += val;
+}
+inline int sum(int x, int y, int c[][N]){
+	int res = 0;
+	for(int i = x; i; i -= lowbit(i))
+		for(int j = y; j; j -= lowbit(j))
+			res += c[i][j];
+	return res;
+}
 
 inline void Add(int x, int y, int val){
-	addx(x, y, val, c1), addx(x, y, val * x, c2), addx(x, y, val * y, c3), addx(x, y, val * x * y, c4);
+	add(x, y, val, c1), add(x, y, val * x, c2), add(x, y, val * y, c3), add(x, y, val * x * y, c4);
 }
 inline int Sum(int x, int y){
-	return sumx(x, y, c1) * (x+1) * (y+1) - sumx(x, y, c2) * (y+1) - sumx(x, y, c3) * (x+1) + sumx(x, y, c4);
+	return sum(x, y, c1) * (x+1) * (y+1) - sum(x, y, c2) * (y+1) - sum(x, y, c3) * (x+1) + sum(x, y, c4);
 }
 
 int main(){
