@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>find_end - C++ Reference</title>
+<link rel="canonical" href="https://www.cplusplus.com/reference/algorithm/find_end/">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<link rel="stylesheet" type="text/css" href="/v322/main.css">
+<script src="/v322/main.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="I_top">
+<div id="I_header">
+<div id="I_logo"><a href="/" title="cplusplus.com"><div></div></a></div>
+<div id="I_search">
+<form id="search" action="/search.do" method="get">
+Search: <input name="q" size="20" class="txt"> <input type="submit" value="Go" class="btn">
+</form>
+</div>
+<div id="I_bar">
+<ul>
+<li><a href="/reference/">Reference</a></li>
+<li><a href="/reference/algorithm/">&lt;algorithm&gt;</a></li>
+<li class="here">find_end</li>
+</ul>
+</div>
+<div id="I_user" class="C_LoginBox"><span title="ajax"></span></div>
+</div>
+</div>
+<div id="I_mid">
+<div id="I_wrap">
+<div id="I_minheight"></div>
+<div id="I_main">
+<div class="C_support">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1444228343479937" crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-1444228343479937"
+     data-ad-slot="9701143201"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div><div id="I_content">
+<div class="C_doc">
+<div id="I_type">function template
+</div>
+<div id="I_file">&lt;algorithm&gt;
+</div>
+<h1><span class="namespace" title="namespace std">std::</span>find_end</h1>
+<div class="C_prototype"><table><tr class="odd"><th>equality (1)</th><td><pre>
+template &lt;class ForwardIterator1, class ForwardIterator2&gt;
+   ForwardIterator1 find_end (ForwardIterator1 first1, ForwardIterator1 last1,
+                              ForwardIterator2 first2, ForwardIterator2 last2);
+</pre></td></tr><tr class="even"><th>predicate (2)</th><td><pre>
+template &lt;class ForwardIterator1, class ForwardIterator2, class BinaryPredicate&gt;
+   ForwardIterator1 find_end (ForwardIterator1 first1, ForwardIterator1 last1,
+                              ForwardIterator2 first2, ForwardIterator2 last2,
+                              BinaryPredicate pred);</pre></td></tr></table></div><div id="I_description">Find last subsequence in range</div>
+<section id="description">
+Searches the range <code>[first1,last1)</code> for the last occurrence of the sequence defined by <code>[first2,last2)</code>, and returns an iterator to its first element, or <var>last1</var> if no occurrences are found.<br>
+<br>
+The elements in both ranges are compared sequentially using <code>operator==</code> (or <var>pred</var>, in version <i>(2)</i>): A subsequence of <code>[first1,last1)</code> is considered a match only when this is <code>true</code> for <strong>all</strong> the elements of <code>[first2,last2)</code>.<br>
+<br>
+This function returns the last of such occurrences. For an algorithm that returns the first instead, see <samp><a href="/search">search</a></samp>.<br>
+<br>
+The behavior of this function template is equivalent to:<br>
+<div class="auto"><table class="snippet"><tr><td class="rownum"><pre><code>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br></code></pre></td>
+<td class="source"><pre><code><var>template</var>&lt;<var>class</var> ForwardIterator1, <var>class</var> ForwardIterator2&gt;
+  ForwardIterator1 find_end (ForwardIterator1 first1, ForwardIterator1 last1,
+                             ForwardIterator2 first2, ForwardIterator2 last2)
+{
+  <var>if</var> (first2==last2) <var>return</var> last1;  <cite>// specified in C++11</cite>
+
+  ForwardIterator1 ret = last1;
+
+  <var>while</var> (first1!=last1)
+  {
+    ForwardIterator1 it1 = first1;
+    ForwardIterator2 it2 = first2;
+    <var>while</var> (*it1==*it2) {    <cite>// or: while (pred(*it1,*it2)) for version (2)</cite>
+        ++it1; ++it2;
+        <var>if</var> (it2==last2) { ret=first1; <var>break</var>; }
+        <var>if</var> (it1==last1) <var>return</var> ret;
+    }
+    ++first1;
+  }
+  <var>return</var> ret;
+}</code></pre></td><td class="C_btnholder"></td></tr></table></div>
+<br>
+</section>
+<br>
+<section id="parameters">
+<h3>Parameters</h3>
+<dl>
+<dt>first1, last1</dt>
+<dd><a href="/ForwardIterator">Forward iterators</a> to the initial and final positions of the searched sequence. The range used is <code>[first1,last1)</code>, which contains all the elements between <var>first1</var> and <var>last1</var>, including the element pointed by <var>first1</var> but not the element pointed by <var>last1</var>.</dd>
+<dt>first2, last2</dt>
+<dd><a href="/ForwardIterator">Forward iterators</a> to the initial and final positions of the sequence to be searched for. The range used is <code>[first2,last2)</code>.<br>
+For <i>(1)</i>, the elements in both ranges shall be of types comparable using <code>operator==</code> (with the elements of the first range as left-hand side operands, and those of the second as right-hand side operands).<br>
+</dd>
+<dt>pred</dt>
+<dd>Binary function that accepts two elements as arguments (one of each of the two sequences, in the same order), and returns a value convertible to <code>bool</code>. The returned value indicates whether the elements are considered to match in the context of this function.<br>
+The function shall not modify any of its arguments.<br>
+This can either be a function pointer or a function object.</dd>
+</dl>
+</section>
+<br>
+<section id="return">
+<h3>Return value</h3>
+An iterator to the first element of the last occurrence of <code>[first2,last2)</code> in <code>[first1,last1)</code>.<br>
+If the sequence is not found, the function returns <var>last1</var>.<br>
+<div class="C_SwitchCases">
+<div title="C++98">
+If <code>[first2,last2)</code> is an empty range, the result is unspecified.<br>
+</div>
+<div title="C++11">
+If <code>[first2,last2)</code> is an empty range, the function returns <var>last1</var>.<br>
+</div>
+</div>
+</section>
+<br>
+<section id="example">
+<h3>Example</h3>
+<div class="auto"><table class="snippet"><tr><td class="rownum"><pre><code>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br></code></pre></td>
+<td class="source"><pre><code><cite>// find_end example</cite>
+<dfn>#include &lt;iostream&gt;     </dfn><cite>// std::cout</cite>
+<dfn>#include &lt;algorithm&gt;    </dfn><cite>// std::find_end</cite>
+<dfn>#include &lt;vector&gt;       </dfn><cite>// std::vector</cite>
+
+<var>bool</var> myfunction (<var>int</var> i, <var>int</var> j) {
+  <var>return</var> (i==j);
+}
+
+<var>int</var> main () {
+  <var>int</var> myints[] = {1,2,3,4,5,1,2,3,4,5};
+  std::vector&lt;<var>int</var>&gt; haystack (myints,myints+10);
+
+  <var>int</var> needle1[] = {1,2,3};
+
+  <cite>// using default comparison:</cite>
+  std::vector&lt;<var>int</var>&gt;::iterator it;
+  it = std::find_end (haystack.begin(), haystack.end(), needle1, needle1+3);
+
+  <var>if</var> (it!=haystack.end())
+    std::cout &lt;&lt; <kbd>"needle1 last found at position "</kbd> &lt;&lt; (it-haystack.begin()) &lt;&lt; <kbd>'\n'</kbd>;
+
+  <var>int</var> needle2[] = {4,5,1};
+
+  <cite>// using predicate comparison:</cite>
+  it = std::find_end (haystack.begin(), haystack.end(), needle2, needle2+3, myfunction);
+
+  <var>if</var> (it!=haystack.end())
+    std::cout &lt;&lt; <kbd>"needle2 last found at position "</kbd> &lt;&lt; (it-haystack.begin()) &lt;&lt; <kbd>'\n'</kbd>;
+
+  <var>return</var> 0;
+}</code></pre></td><td class="C_btnholder"></td></tr></table></div>
+<br>
+<br>
+Output:<br>
+<div class="auto"><table class="snippet"><tr><td class="output"><pre><samp>needle1 last found at position 5
+needle2 last found at position 3
+</samp></pre></td></tr></table></div>
+</section>
+<br>
+<section id="complexity">
+<h3>Complexity</h3>
+Up to linear in <code>count2*(1+count1-count2)</code>, where <var>countX</var> is the <a href="/distance">distance</a> between <var>firstX</var> and <var>lastX</var>: Compares elements until the last matching subsequence is found.<br>
+</section>
+<br>
+<section id="access">
+<h3>Data races</h3>
+Some (or all) of the objects in both ranges are accessed (possibly more than once).<br>
+</section>
+<br>
+<section id="exceptions">
+<h3>Exceptions</h3>
+Throws if any element comparison (or call to <var>pred</var>) throws or if any of the operations on iterators throws.<br>
+Note that invalid arguments cause <i>undefined behavior</i>.<br>
+</section>
+<br>
+<section id="see">
+<h3>See also</h3>
+<dl class="links"><dt><a href= "/reference/algorithm/search/"><b>search</b></a></dt><dd>Search range for subsequence <span class="typ">(function template
+)</span></dd></dl><dl class="links"><dt><a href= "/reference/algorithm/find/"><b>find</b></a></dt><dd>Find value in range <span class="typ">(function template
+)</span></dd></dl><dl class="links"><dt><a href= "/reference/algorithm/find_if/"><b>find_if</b></a></dt><dd>Find element in range <span class="typ">(function template
+)</span></dd></dl>
+</section></div><div id="CH_bb"></div></div>
+</div>
+<div id="I_midclear"></div>
+</div>
+</div>
+<div id="I_bottom">
+<div id="I_footer">
+	<a href="/">Home page</a> | <a href="/privacy.do">Privacy policy</a><br>&copy; cplusplus.com, 2000-2021 - All rights reserved - <i>v3.2</i><br><a href="/contact.do?referrer=www.cplusplus.com%2Freference%2Falgorithm%2Ffind_end%2F">Spotted an error? contact us</a>
+</div>
+</div>
+
+<script type="text/javascript">
+<!--
+ onSession ( function(us) {
+		el=document.getElementById('CH_bb'); el.innerHTML='';
+		if (us.auth(4096)) {
+			
+			el.appendChild(btn('Edit Page','Edit Page','edit','/reference/edit.cgi?a=algorithm+find_end'));
+			el.appendChild(btn('Delete Page','Delete Page','delete','javascript:docdel()'));
+		}
+	});
+	function docdel() { if (confirm('WARNING: You are about to delete this page. Confirm?')) window.location='/reference/delete.cgi?a=algorithm+find_end'; }
+	ready();
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-521783-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+//-->
+</script>
+
+<script>
+(function(){
+  // mini cookie-consent code (c) Juan Soulie, 2016
+  var s ='consent=cookie';
+  var e = document.createElement('div');
+  e.innerHTML = '<div style="background:#eed;padding:10px;margin:0;text-align:center;border-bottom:1px solid #446"><span style="color:#210;font-weight:bold">This website uses cookies. By continuing, you give permission to deploy cookies, as detailed in our <a href="/privacy.do">privacy policy</a>.</span> <span style="margin-left:10px;border-radius:5px;padding:1px 10px;background:#bcd;border:1px solid #789;cursor:pointer">ok</span></div>';
+  if (document.cookie.indexOf(s)!==-1) return;
+  var b = document.getElementsByTagName('body')[0];
+  b.insertBefore(e,b.firstChild);
+  var x = function() { document.cookie = s+'; path=/'; e.parentNode.removeChild(e); };
+  e.addEventListener('click',x);
+  document.addEventListener('scroll',x);
+})();
+</script>
+
+</body>
+</html>

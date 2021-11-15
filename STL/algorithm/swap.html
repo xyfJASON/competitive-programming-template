@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>swap - C++ Reference</title>
+<link rel="canonical" href="https://www.cplusplus.com/reference/algorithm/swap/">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<link rel="stylesheet" type="text/css" href="/v322/main.css">
+<script src="/v322/main.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="I_top">
+<div id="I_header">
+<div id="I_logo"><a href="/" title="cplusplus.com"><div></div></a></div>
+<div id="I_search">
+<form id="search" action="/search.do" method="get">
+Search: <input name="q" size="20" class="txt"> <input type="submit" value="Go" class="btn">
+</form>
+</div>
+<div id="I_bar">
+<ul>
+<li><a href="/reference/">Reference</a></li>
+<li><a href="/reference/algorithm/">&lt;algorithm&gt;</a></li>
+<li class="here">swap</li>
+</ul>
+</div>
+<div id="I_user" class="C_LoginBox"><span title="ajax"></span></div>
+</div>
+</div>
+<div id="I_mid">
+<div id="I_wrap">
+<div id="I_minheight"></div>
+<div id="I_main">
+<div class="C_support">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1444228343479937" crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-1444228343479937"
+     data-ad-slot="9701143201"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div><div id="I_content">
+<div class="C_doc">
+<div id="I_type">function template
+</div>
+<div id="I_file">C++98: &lt;algorithm&gt;, C++11: &lt;utility&gt;
+</div>
+<h1><span class="namespace" title="namespace std">std::</span>swap</h1>
+<div class="C_prototype"><div class="C_SwitchCases">
+<div title="C++98">
+<pre>template &lt;class T&gt; void swap (T&amp; a, T&amp; b);
+</pre></div>
+<div title="C++11" class="off">
+<table><tr class="odd"><th>header</th><td><pre>
+// moved from &lt;algorithm&gt; to &lt;utility&gt; in C++11
+</pre></td></tr><tr class="even"><th>non-array (1)</th><td><pre>
+template &lt;class T&gt; void swap (T&amp; a, T&amp; b)
+  noexcept (is_nothrow_move_constructible&lt;T&gt;::value &amp;&amp; is_nothrow_move_assignable&lt;T&gt;::value);
+</pre></td></tr><tr class="odd"><th>array (2)</th><td><pre>
+template &lt;class T, size_t N&gt; void swap(T (&amp;a)[N], T (&amp;b)[N])
+  noexcept (noexcept(swap(*a,*b)));</pre></td></tr></table></div>
+</div>
+</div><div id="I_description">Exchange values of two objects</div>
+<section id="description">
+Exchanges the values of <var>a</var> and <var>b</var>.<br>
+<br>
+<div class="C_SwitchCases">
+<div title="C++98">
+The behavior of this function template is equivalent to:<br>
+<div class="auto"><table class="snippet"><tr><td class="rownum"><pre><code>1<br>2<br>3<br>4<br></code></pre></td>
+<td class="source"><pre><code><var>template</var> &lt;<var>class</var> T&gt; <var>void</var> swap ( T&amp; a, T&amp; b )
+{
+  T c(a); a=b; b=c;
+}</code></pre></td><td class="C_btnholder"></td></tr></table></div>
+<br>
+<br>
+Notice how this function involves a copy construction and two assignment operations, which may not be the most efficient way of swapping the contents of classes that store large quantities of data, since each of these operations generally operate in linear time on their size.<br>
+<br>
+Large data types can provide an overloaded version of this function optimizing its performance. Notably, all <a href="/stl">standard containers</a> specialize it in such a way that only a few internal pointers are swapped instead of their entire contents, making them operate in constant time.<br>
+</div>
+<div title="C++11">
+This function is no longer defined in header <code><a href="/&lt;algorithm&gt;">&lt;algorithm&gt;</a></code>, but in <code><a href="/&lt;utility&gt;">&lt;utility&gt;</a></code>.<br>
+<br>
+The behavior of these function templates is equivalent to:<br>
+<div class="auto"><table class="snippet"><tr><td class="rownum"><pre><code>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br></code></pre></td>
+<td class="source"><pre><code><var>template</var> &lt;<var>class</var> T&gt; <var>void</var> swap (T&amp; a, T&amp; b)
+{
+  T c(std::move(a)); a=std::move(b); b=std::move(c);
+}
+<var>template</var> &lt;<var>class</var> T, size_t N&gt; <var>void</var> swap (T (&amp;a)[N], T (&amp;b)[N])
+{
+  <var>for</var> (size_t i = 0; i&lt;N; ++i) swap (a[i],b[i]);
+}</code></pre></td><td class="C_btnholder"></td></tr></table></div>
+<br>
+</div>
+</div>
+<br>
+Many components of the standard library (within <samp>std</samp>) call <samp>swap</samp> in an <i>unqualified</i> manner to allow custom overloads for non-fundamental types to be called instead of this generic version: Custom overloads of <samp>swap</samp> declared in the same namespace as the type for which they are provided get selected through <i>argument-dependent lookup</i> over this generic version.<br>
+</section>
+<br>
+<section id="parameters">
+<h3>Parameters</h3>
+<dl>
+<dt>a, b</dt>
+<dd>Two objects, whose contents are swapped.<br>
+<div class="C_SwitchCases">
+<div title="C++98">
+Type <samp>T</samp> shall be <i>copy-constructible</i> and <i>assignable</i>.<br>
+</div>
+<div title="C++11">
+Type <samp>T</samp> shall be <i><a href="/is_move_constructible">move-constructible</a></i> and <i><a href="/is_move_assignable">move-assignable</a></i> (or have <samp><a href="/swap">swap</a></samp> defined for it, for version <i>(2)</i>).<br>
+</div>
+</div>
+</dd>
+</dl>
+</section>
+<br>
+<section id="return">
+<h3>Return value</h3>
+none<br>
+</section>
+<br>
+<section id="example">
+<h3>Example</h3>
+<div class="auto"><table class="snippet"><tr><td class="rownum"><pre><code>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br></code></pre></td>
+<td class="source"><pre><code><cite>// swap algorithm example (C++98)</cite>
+<dfn>#include &lt;iostream&gt;     </dfn><cite>// std::cout</cite>
+<dfn>#include &lt;algorithm&gt;    </dfn><cite>// std::swap</cite>
+<dfn>#include &lt;vector&gt;       </dfn><cite>// std::vector</cite>
+
+<var>int</var> main () {
+
+  <var>int</var> x=10, y=20;                              <cite>// x:10 y:20</cite>
+  std::swap(x,y);                              <cite>// x:20 y:10</cite>
+
+  std::vector&lt;<var>int</var>&gt; foo (4,x), bar (6,y);       <cite>// foo:4x20 bar:6x10</cite>
+  std::swap(foo,bar);                          <cite>// foo:6x10 bar:4x20</cite>
+
+  std::cout &lt;&lt; <kbd>"foo contains:"</kbd>;
+  <var>for</var> (std::vector&lt;<var>int</var>&gt;::iterator it=foo.begin(); it!=foo.end(); ++it)
+    std::cout &lt;&lt; <kbd>' '</kbd> &lt;&lt; *it;
+  std::cout &lt;&lt; <kbd>'\n'</kbd>;
+
+  <var>return</var> 0;
+}</code></pre></td><td class="C_btnholder"></td></tr></table></div>
+<br>
+<br>
+Output:<br>
+<div class="auto"><table class="snippet"><tr><td class="output"><pre><samp>foo contains: 10 10 10 10 10 10
+</samp></pre></td></tr></table></div>
+</section>
+<br>
+<section id="complexity">
+<h3>Complexity</h3>
+<b>Non-array:</b> Constant: Performs exactly one construction and two assignments (although notice that each of these operations works on its own complexity).<br>
+<b>Array:</b> Linear in <var>N</var>: performs a swap operation per element.</section>
+<br>
+<section id="access">
+<h3>Data races</h3>
+Both <var>a</var> and <var>b</var> are modified.<br>
+</section>
+<br>
+<section id="exceptions">
+<h3>Exceptions</h3>
+Throws if the construction or assignment of type <samp>T</samp> throws.<br>
+Never throws if <samp>T</samp> is <i><a href="/is_nothrow_move_constructible">nothrow-move-constructible</a></i> and <i><a href="/is_nothrow_move_assignable">nothrow-move-assignable</a></i>.<br>
+Note that if <samp>T</samp> does not fulfill the requirements specified above (in <a href="#parameters">parameters</a>), it causes <i>undefined behavior</i>.<br>
+</section>
+<br>
+<section id="see">
+<h3>See also</h3>
+<dl class="links"><dt><a href= "/reference/algorithm/copy/"><b>copy</b></a></dt><dd>Copy range of elements <span class="typ">(function template
+)</span></dd></dl><dl class="links"><dt><a href= "/reference/algorithm/fill/"><b>fill</b></a></dt><dd>Fill range with value <span class="typ">(function template
+)</span></dd></dl><dl class="links"><dt><a href= "/reference/algorithm/replace/"><b>replace</b></a></dt><dd>Replace value in range <span class="typ">(function template
+)</span></dd></dl>
+</section></div><div id="CH_bb"></div></div>
+</div>
+<div id="I_midclear"></div>
+</div>
+</div>
+<div id="I_bottom">
+<div id="I_footer">
+	<a href="/">Home page</a> | <a href="/privacy.do">Privacy policy</a><br>&copy; cplusplus.com, 2000-2021 - All rights reserved - <i>v3.2</i><br><a href="/contact.do?referrer=www.cplusplus.com%2Freference%2Falgorithm%2Fswap%2F">Spotted an error? contact us</a>
+</div>
+</div>
+
+<script type="text/javascript">
+<!--
+ onSession ( function(us) {
+		el=document.getElementById('CH_bb'); el.innerHTML='';
+		if (us.auth(4096)) {
+			
+			el.appendChild(btn('Edit Page','Edit Page','edit','/reference/edit.cgi?a=algorithm+swap'));
+			el.appendChild(btn('Delete Page','Delete Page','delete','javascript:docdel()'));
+		}
+	});
+	function docdel() { if (confirm('WARNING: You are about to delete this page. Confirm?')) window.location='/reference/delete.cgi?a=algorithm+swap'; }
+	ready();
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-521783-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+//-->
+</script>
+
+<script>
+(function(){
+  // mini cookie-consent code (c) Juan Soulie, 2016
+  var s ='consent=cookie';
+  var e = document.createElement('div');
+  e.innerHTML = '<div style="background:#eed;padding:10px;margin:0;text-align:center;border-bottom:1px solid #446"><span style="color:#210;font-weight:bold">This website uses cookies. By continuing, you give permission to deploy cookies, as detailed in our <a href="/privacy.do">privacy policy</a>.</span> <span style="margin-left:10px;border-radius:5px;padding:1px 10px;background:#bcd;border:1px solid #789;cursor:pointer">ok</span></div>';
+  if (document.cookie.indexOf(s)!==-1) return;
+  var b = document.getElementsByTagName('body')[0];
+  b.insertBefore(e,b.firstChild);
+  var x = function() { document.cookie = s+'; path=/'; e.parentNode.removeChild(e); };
+  e.addEventListener('click',x);
+  document.addEventListener('scroll',x);
+})();
+</script>
+
+</body>
+</html>
