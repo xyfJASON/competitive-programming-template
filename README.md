@@ -171,6 +171,9 @@
 <details>
 	<summary>STL</summary>
     <ul>
+        <li>algorithm</li>
+    </ul>
+    <ul>
         <li>bitset</li>
     </ul>
 </details>
