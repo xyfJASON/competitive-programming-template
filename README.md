@@ -168,13 +168,4 @@
         <li>杂项</li>
     </ul>
 </details>
-<details>
-	<summary>STL</summary>
-    <ul>
-        <li>algorithm</li>
-    </ul>
-    <ul>
-        <li>bitset</li>
-    </ul>
-</details>
 
