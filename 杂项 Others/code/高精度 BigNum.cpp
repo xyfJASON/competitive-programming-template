@@ -92,21 +92,24 @@ struct BigNum{
 		return C;
 	}
 	BigNum operator / (const LL &b) const{
-		BigNum C(*this);
-		for(int i = C.a.size() - 1; i >= 0; i--){
-			if(i)	C.a[i-1] += C.a[i] % b * 10;
-			C.a[i] /= b;
+		vector<LL> C;
+		for(int i = 0; i < a.size(); i++)	C.pb(a[i]);
+		for(int i = C.size() - 1; i >= 0; i--){
+			if(i)	C[i-1] += C[i] % b * 10;
+			C[i] /= b;
 		}
-		while(C.a.size() > 1 && C.a.back() == 0)
-			C.a.pop_back();
-		return C;
+		while(C.size() > 1 && C.back() == 0)
+			C.pop_back();
+		BigNum res;
+		for(int i = 0; i < C.size(); i++)	res.a.pb(C[i]);
+		return res;
 	}
 	BigNum operator / (const BigNum &b) const{
 		BigNum L(0ll), R(*this), ans, t;
 		while(L < R){
-			BigNum mid((L + R) / 2);
-			if(mid * b < (*this))	L = mid + BigNum(1);
-			else	R = mid;
+			BigNum mid((L + R + BigNum(1)) / 2);
+			if(mid * b <= (*this))	L = mid;
+			else	R = mid - BigNum(1);
 		}
 		return L;
 	}
