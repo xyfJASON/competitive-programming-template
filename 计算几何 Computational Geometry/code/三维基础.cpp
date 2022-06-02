@@ -47,6 +47,11 @@ bool PointInTriangle(Point3 P, Point3 A, Point3 B, Point3 C){
 	double area3 = TriangleArea(P, C, A);
 	return sgn(area1 + area2 + area3 - TriangleArea(A, B, C)) == 0;
 }
+Point3 RodriguesRotate(Vector3 V, Vector3 K, double theta){
+	// 向量 V 绕向量 K 按右手螺旋旋转 theta
+	K = K / Length(K);
+	return cos(theta) * V + (1 - cos(theta)) * (V * K) * K + (sin(theta)*(K^V));
+}
 
 struct Line3{
 	Point3 p;
