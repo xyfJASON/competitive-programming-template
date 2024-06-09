@@ -1,5 +1,5 @@
-# Template-for-CP
- This is a collection of my templates used for Competitive Programming.
+# Template-for-Competitive-Programming
+ This is a collection of my templates used for competitive programming.
 
 <br>
 
